@@ -14,12 +14,16 @@
  *
  *	Author: SmartThings
  *	Date: 2014-5-21
+ *	Modification:
+ *	Author: Jean-Francois Bergeron (Midknight63@gmail.com)
+ *	Date: 2016-07-29
+ *	Added: 4 more buttons
  */
 definition(
     name: "Button Controller",
     namespace: "smartthings",
     author: "SmartThings",
-    description: "Control devices with buttons like the Aeon Labs Minimote",
+    description: "Control devices with buttons like the Aeon Labs Minimote and Remotec ZRC-90",
     category: "Convenience",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/MyApps/Cat-MyApps.png",
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/MyApps/Cat-MyApps@2x.png"
@@ -31,7 +35,10 @@ preferences {
 	page(name: "configureButton2")
 	page(name: "configureButton3")
 	page(name: "configureButton4")
-
+	page(name: "configureButton5")
+	page(name: "configureButton6")
+	page(name: "configureButton7")
+	page(name: "configureButton8")
 	page(name: "timeIntervalInput", title: "Only during a certain time") {
 		section {
 			input "starting", "time", title: "Starting", required: false
@@ -75,7 +82,23 @@ def configureButton3() {
 }
 def configureButton4() {
 	dynamicPage(name: "configureButton4", title: "If you have a fourth button, you rule, and can set it up here",
-		install: true, uninstall: true, getButtonSections(4))
+		nextPage: "configureButton5", uninstall: configured(), getButtonSections(4))
+}
+def configureButton5() {
+	dynamicPage(name: "configureButton5", title: "If you have a fifth button, you rule, and can set it up here",
+		nextPage: "configureButton6", uninstall: configured(), getButtonSections(5))
+}
+def configureButton6() {
+	dynamicPage(name: "configureButton6", title: "If you have a sixth button, you rule, and can set it up here",
+		nextPage: "configureButton7", uninstall: configured(), getButtonSections(6))
+}
+def configureButton7() {
+	dynamicPage(name: "configureButton7", title: "If you have a seventh button, you rule, and can set it up here",
+		nextPage: "configureButton8", uninstall: configured(), getButtonSections(7))
+}
+def configureButton8() {
+	dynamicPage(name: "configureButton8", title: "If you have a eighth button, you rule, and can set it up here",
+		install: true, uninstall: true, getButtonSections(8))
 }
 
 def getButtonSections(buttonNumber) {
@@ -139,7 +162,7 @@ def initialize() {
 }
 
 def configured() {
-	return buttonDevice || buttonConfigured(1) || buttonConfigured(2) || buttonConfigured(3) || buttonConfigured(4)
+	return buttonDevice || buttonConfigured(1) || buttonConfigured(2) || buttonConfigured(3) || buttonConfigured(4) || buttonConfigured(5) || buttonConfigured(6) || buttonConfigured(7) || buttonConfigured(8)
 }
 
 def buttonConfigured(idx) {
@@ -177,6 +200,18 @@ def buttonEvent(evt){
 				case ~/.*4.*/:
 					executeHandlers(4, value)
 					break
+				case ~/.*5.*/:
+					executeHandlers(4, value)
+					break
+				case ~/.*6.*/:
+					executeHandlers(4, value)
+					break 
+				case ~/.*7.*/:
+					executeHandlers(4, value)
+					break 
+				case ~/.*8.*/:
+					executeHandlers(4, value)
+					break                    
 			}
 		} else {
 			log.debug "Found recent button press events for $buttonNumber with value $value"
